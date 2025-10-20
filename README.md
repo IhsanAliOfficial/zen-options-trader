@@ -1,40 +1,33 @@
+# zen-options-Bot
 
-**Options Trading Algorithm**
+An intelligent, trigger-based options trading framework that automates signal detection, strike selection, and order execution.
 
-This repository implements a strategy based on 5-minute stock price candles, executing options orders via Interactive Brokers TWS.
+### 🔧 Features
+- **Breakout trigger logic** (detects up/down momentum)
+- **Dynamic strike selection** based on price direction & thresholds
+- **Configurable DUMMY / LIVE modes** for safe testing or IBKR trading
+- **Smart order placement** with take-profit, stop-loss, and partial-sell (OCA group)
+- **Automatic end-of-day cleanup** for open positions or orders
+- **Full logging support** (file + console)
 
-## Features
-- Ignores the first 15 minutes of trading
-- Trades only between 07:45 and 10:00 MST
-- Identifies a trigger candle and confirms entry on a wick-break pattern
-- Positions sized to \$10,000 per trade in next-day expiration options < \$1 OTM
-- Take profit at 10% (sell 90%), hold 10% until EOD or 10% SL
-- IB TWS integration with clean code and basic logging
+### ⚙️ Environment Variables
+SYMBOLS=SPY
+POSITION_USD=10000
+MODE=DUMMY
+TAKE_PROFIT_PCT=0.10
+STOP_LOSS_PCT=0.10
+EOD_TIME=15:50
 
-## Requirements
-- Python 3.8+
-- `ib_insync`, `pandas`, `pytz`, `schedule`
+yaml
+Copy code
 
-## Installation
-```bash
-pip install ib_insync pandas pytz schedule
-```
+### 🧠 Logic Overview
+1. Fetch 5-min bars (dummy or IBKR live)
+2. Detect direction trigger (momentum breakout)
+3. Select near-the-money strike based on direction
+4. Place orders with TP/SL and partial exits
+5. Auto-cleanup at EOD
 
-## Configuration
-Edit the `CONFIG` section in `strategy.py` for symbol and IB connection parameters.
+---
 
-## Usage
-```bash
-python strategy.py
-```
-
-## Output
-```bash
-Trigger found at: 2025-04-21 07:20:00+00:00
-
-Contract sizing tests:
-  Price = 2.5 → Contracts = 40
-  Price = 0 → Contracts = 0
-  Price = -1 → Contracts = 0
-
-```
+Built with ❤️ for algorithmic traders experimenting with options strategies.
